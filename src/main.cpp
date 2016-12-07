@@ -19,12 +19,17 @@ int num = 1;
 int compare = 0;
 int range = 3;
 int search = 0;
+bool pattern = true;
 
 void error() {
 	speaker = 0.5;
 	wait(0.25);
 	speaker = 0;
 	search = 0;
+	values.clear();
+	num = 1;
+	compare = 0;
+	wait(2);
 }
 
 void check() {
@@ -34,29 +39,33 @@ void check() {
 		device.printf("Random Number: %i\n", random);
 		values.push_back(random);			
 		compare++;
+		pattern = true;
 	}
 }
 
 void show_pattern() {
-	for (int i = 0; i < values.size(); i++) {
-		if (values[i] == 1) {
-			led_1 = 1;
-			wait(0.5);
-			led_1 = 0;
-			wait(0.5);
+	if (pattern) {
+		for (int i = 0; i < values.size(); i++) {
+			if (values[i] == 1) {
+				led_1 = 1;
+				wait(0.5);
+				led_1 = 0;
+				wait(0.5);
+			}
+			else if (values[i] == 2) {
+				led_2 = 1;
+				wait(0.5);
+				led_2 = 0;
+				wait(0.5);
+			}
+			else if (values[i] == 3) {
+				led_3 = 1;
+				wait(0.5);
+				led_3 = 0;
+				wait(0.5);
+			}
 		}
-		else if (values[i] == 2) {
-			led_2 = 1;
-			wait(0.5);
-			led_2 = 0;
-			wait(0.5);
-		}
-		else if (values[i] == 3) {
-			led_3 = 1;
-			wait(0.5);
-			led_3 = 0;
-			wait(0.5);
-		}
+		pattern = false;
 	}
 }
 
@@ -130,7 +139,7 @@ int main() {
 	device.baud(9600);
 	while(1) {		
 		check();
-		wait(2);
+		wait(1);
 		show_pattern();
 	}
 }
